@@ -67,6 +67,17 @@ public class IntList {
         //TODO:  Print out L1 using IntelliJ's 'sout' command.
     }
 
+    /** Returns the sum of the integers contained in L.*/
+    public static int sum(IntList L) {
+        int sum = 0;
+        IntList p = L;
+        while (p != null) {
+            sum = p.head;
+            p = p.tail;
+        }
+        return sum;
+    }
+
     /** DO NOT MODIFY ANYTHING BELOW THIS LINE! In fact, I wouldn't even
      * look below this line since it's likely to confuse you. Throughout the
      * semester, you will become familiar with what is happening below. */
@@ -110,16 +121,6 @@ public class IntList {
         return result;
     }
 
-    /** Returns the sum of the integers contained in L.*/
-    public static int sum(IntList L) {
-        int sum = 0;
-        IntList p = L;
-        while (p != null) {
-            sum = p.head;
-            p = p.tail;
-        }
-        return sum;
-    }
 
     /** If a cycle exists in A, return an integer equal to
      *  the item number of the location where the cycle is detected.
