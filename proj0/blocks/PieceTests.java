@@ -58,7 +58,9 @@ public class PieceTests {
     @Test
     public void toStringTest() {
         Piece p = new Piece(PIECE1);
-        assertEquals("Wrong string", PIECE1.replace(" ", System.getProperty("line.separator")), p.toString());
+        assertEquals("Wrong string",
+                PIECE1.replace(" ", System.getProperty("line.separator")),
+                p.toString());
     }
 
     /** Sample input for 3x4 piece. */
