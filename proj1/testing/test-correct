@@ -1,0 +1,52 @@
+
+# Usage: bash test-correct F1.inp F2.inp ...
+#     Runs each F.inp through java enigma.Main and compares the output to
+#     F.out.  Uses F.conf as configuration file, if it exists, and otherwise
+#     default.conf. Briefly reports results.  Exits normally if all
+#     tests pass, and otherwise exits with code 1.
+
+rm -rf OUT.txt ERR.txt
+code=0
+
+if [[ "$OSTYPE" != "msys" ]]; then
+    ULIMIT="ulimit -t 5; ulimit -f 100"
+fi
+if [ -z $PYTHON ]; then
+	if python3 --version > /dev/null 2>&1; then
+		PYTHON=python3
+	else
+		PYTHON=python
+	fi
+fi
+
+for f in "$@"; do
+    echo -n "$(basename $(dirname $f))/$(basename $f): ";
+    if [ -f "${f%.in}.conf" ]; then
+        config="${f%.in}.conf";
+    else
+        config="$(dirname "$f")/default.conf"
+    fi
+    if (eval $ULIMIT;
+        java -ea enigma.Main "$config" < "$f" > OUT.txt 2> ERR.txt); then
+	if $PYTHON compfiles.py OUT.txt "${f%.in}.out"; then
+	    echo "OK";
+	else
+	    code=1; echo "ERROR (output)";
+	fi;
+    else
+        exitCode=$?
+        case $exitCode in
+             158)  echo "ERROR (time limit exceeded)";;
+             159)  echo "ERROR (too much output)";;
+             *)    if grep '^Exception in thread "main"' ERR.txt >/dev/null; then
+                      code=1; echo "ERROR (uncaught exception)";
+                   else
+                      echo "ERROR (bad exit code: $? instead of 0)";
+                   fi;;
+        esac
+	code=1;
+    fi;
+    rm -rf OUT.txt ERR.txt;
+done;
+
+exit $code

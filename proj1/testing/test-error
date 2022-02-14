@@ -1,0 +1,40 @@
+
+# Usage: bash test-error F1 F2 ...
+#     Runs each file F through java enigma.Main and checks that it returns
+#     a non-zero exit code and produces no exception backtrace.
+#     Uses F.conf as configuration file, if it exists, and otherwise
+#     default.conf. Briefly reports results.  Exits normally if all
+#     tests pass, and otherwise exits with code 1.
+
+code=0
+rm -rf ERR.txt
+
+if [[ "$OSTYPE" != "msys" ]]; then
+    ULIMIT="ulimit -t 5; ulimit -f 100"
+fi
+
+for f in "$@"; do
+    echo -n "$(basename $(dirname $f))/$(basename $f): ";
+    if [ -f "${f%.in}.conf" ]; then
+        config="${f%.in}.conf";
+    else
+        config="$(dirname "$f")/default.conf"
+    fi
+    if (eval $ULIMIT;
+        java -ea enigma.Main  "$config" < "$f" > /dev/null 2> ERR.txt); then
+	code=1; echo "ERROR (did not report error; exit code was 0)";
+    else
+        case $? in
+            158)  code=1; echo "ERROR (time limit exceeded)";;
+            159)  code=1; echo "ERROR (too much output)";;
+            *)    if grep '^Exception in thread "main"' ERR.txt >/dev/null; then
+	             code=1; echo "ERROR (uncaught exception)";
+                  else
+                     echo OK;
+                  fi;;
+        esac
+    fi
+    rm -rf ERR.txt;
+done;
+
+exit $code
