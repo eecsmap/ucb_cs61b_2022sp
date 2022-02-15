@@ -1,0 +1,31 @@
+t1.first_name,t1.last_name,t1.fav_data_structure,t2.first_name,t2.last_name,t2.fav_color
+Itai,Smith,Red Black Tree,Matt,Owen,Yellow
+Itai,Smith,Red Black Tree,Michelle,Hwang,Black
+Itai,Smith,Red Black Tree,Itai,Smith,Blue
+Itai,Smith,Red Black Tree,Tina,Zhao,Salmon
+Itai,Smith,Red Black Tree,Carlo,Cruz-Albrecht,Blue
+Itai,Smith,Red Black Tree,Shivani,Kishnani,Emerald
+Matt,Owen,kd-tree,Matt,Owen,Yellow
+Matt,Owen,kd-tree,Michelle,Hwang,Black
+Matt,Owen,kd-tree,Itai,Smith,Blue
+Matt,Owen,kd-tree,Tina,Zhao,Salmon
+Matt,Owen,kd-tree,Carlo,Cruz-Albrecht,Blue
+Matt,Owen,kd-tree,Shivani,Kishnani,Emerald
+Michelle,Hwang,HashMap,Matt,Owen,Yellow
+Michelle,Hwang,HashMap,Michelle,Hwang,Black
+Michelle,Hwang,HashMap,Itai,Smith,Blue
+Michelle,Hwang,HashMap,Tina,Zhao,Salmon
+Michelle,Hwang,HashMap,Carlo,Cruz-Albrecht,Blue
+Michelle,Hwang,HashMap,Shivani,Kishnani,Emerald
+Sean,Dooher,Merkle Hash Tree,Matt,Owen,Yellow
+Sean,Dooher,Merkle Hash Tree,Michelle,Hwang,Black
+Sean,Dooher,Merkle Hash Tree,Itai,Smith,Blue
+Sean,Dooher,Merkle Hash Tree,Tina,Zhao,Salmon
+Sean,Dooher,Merkle Hash Tree,Carlo,Cruz-Albrecht,Blue
+Sean,Dooher,Merkle Hash Tree,Shivani,Kishnani,Emerald
+Omar,Khan,LinkedList,Matt,Owen,Yellow
+Omar,Khan,LinkedList,Michelle,Hwang,Black
+Omar,Khan,LinkedList,Itai,Smith,Blue
+Omar,Khan,LinkedList,Tina,Zhao,Salmon
+Omar,Khan,LinkedList,Carlo,Cruz-Albrecht,Blue
+Omar,Khan,LinkedList,Shivani,Kishnani,Emerald
