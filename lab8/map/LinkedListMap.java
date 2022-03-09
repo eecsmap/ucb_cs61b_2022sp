@@ -6,7 +6,7 @@ public class LinkedListMap<K extends Comparable<K>, V> implements SimpleMap<K, V
     public void put(K key, V value) {
         if (_head != null) {
             MapNode ptr = _head;
-            while (ptr._next != null) {
+            while (ptr != null) {
                 if (ptr._key.equals(key)) {
                     ptr._value = value;
                     return;
