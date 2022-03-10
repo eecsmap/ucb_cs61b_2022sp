@@ -1,0 +1,17 @@
+<html>
+Moves.
+    To make a move, click on the piece you wish to move and then on
+    the destination square.  Click the Pass button to pass.
+
+Setting Player Types.
+    Select menu item Options->Players to set the red and blue players
+    to be either AIs or manual players.
+
+Setting Blocks.
+    To set blocks (before the game starts), select the Game->Blocks
+    menu item.  In "Set Blocks" mode, click on a square to set a block
+    there.
+
+Starting and Restarting.
+    Selecting item Game->New clears the board and starts a new game with
+    the current choice of player types.

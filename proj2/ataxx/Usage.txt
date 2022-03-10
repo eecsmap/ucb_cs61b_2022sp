@@ -1,0 +1,11 @@
+Usage: java ataxx.Main [ --display ]  [ --log ] [ --timing ] [ --strict ] \\
+                       [ --debug=N ] [ FILE ... ]
+       java ataxx.Main --version
+  --display: Use GUI.
+  --log: Echo commands.
+  --strict:  Exits (code 1) on any user error.
+  --timing: Time AI computations.
+  --version: Print version number and exit.
+  --debug=N: Set informational message level to N.
+
+  FILES are input files; default is the standard input.

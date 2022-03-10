@@ -1,0 +1,11 @@
+#* java -ea ataxx.Main
+# Trivial test of set-up with blocks
+manual blue
+block b2
+block c3
+block c4
+a7-a6
+g7-f5
+dump
+quit
+

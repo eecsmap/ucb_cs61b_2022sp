@@ -1,0 +1,28 @@
+Move commands:
+   C1R1-C2R2
+            Where C1 and C2 are column letters a-g, R1 and R2 are row
+            numbers 1-7, using the following designations:
+
+                 7 - - - - - - -
+                 6 - - - - - - -
+                 5 - - - - - - -
+                 4 - - - - - - -
+                 3 - - - - - - -
+                 2 - - - - - - -
+                 1 - - - - - - -
+                   a b c d e f g
+
+   -        Take a pass.  Legal only when one has no legal move.
+
+Other commands:
+   new      Clear the board and set up for a new game.
+   auto C   Let player C (Red or Blue) be an AI.
+   manual C Let player C (Red or Blue) be a manual player.
+   block CR Set a block at the indicated position, and all reflections of
+            that position across the center row and center column of the
+            board.
+   seed N   Seed random number generator with N.
+   dump     Print the board.
+   quit     Resign any current game and exit program.
+   help     Print this message.
+

@@ -1,0 +1,8 @@
+#* java -ea ataxx.Main
+# Trivial test of initial board with blocks
+block b2
+block c3
+block c4
+dump
+quit
+
