@@ -85,8 +85,8 @@ class GUI extends TopLevel implements View, CommandSource, Reporter {
     /** Execute the "New Game" button function. */
     private synchronized void newGame(String unused) {
         send("new");
-        setEnabled(false, "Game->Blocks->Set Blocks");
-        setEnabled(true, "Game->Blocks->Move Pieces");
+        select("Game->Blocks->Set Blocks", false);
+        select("Game->Blocks->Move Pieces", true);
         _widget.setBlockMode(false);
     }
 
