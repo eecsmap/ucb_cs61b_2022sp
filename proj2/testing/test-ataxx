@@ -403,7 +403,7 @@ class Prog:
                 pass
         if rc != 0:
             self._end_message = \
-                self._end_message or "process did not exit normallly."
+                self._end_message or "process did not exit normally."
 
     def _enqueue(self, queue, msg):
         try:
