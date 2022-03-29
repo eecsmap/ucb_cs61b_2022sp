@@ -4,6 +4,7 @@
 # Author: P. N. Hilfinger
 
 import re, sys, os
+import platform
 from subprocess import Popen, STDOUT, PIPE, DEVNULL, \
                 SubprocessError, TimeoutExpired
 from threading import Thread
@@ -11,6 +12,7 @@ from queue import Queue, Empty, Full
 from getopt import getopt, GetoptError
 from os.path import basename, join, splitext
 from os import chdir
+
 
 MAX_ERROR_LINES = 1000
 MAX_OUTPUT_LINES = 1000
@@ -23,6 +25,8 @@ WIN_PATN = re.compile(r'\s*\*\s*(Draw\.|(?:Red|Blue)\s+wins\.)\s*$')
 MOVE_PATN = re.compile(r'\s*\*\s*(?:Red|Blue)\s+moves\s+(?P<move>[a-g][1-7]-[a-g][1-7]|-)')
 MSG_PATN = re.compile(r'(?P<win>{})|{}'.format(WIN_PATN.pattern,
                                                MOVE_PATN.pattern))
+BASH = "C:\\Program Files\\Git\\bin\\bash.exe" if platform.system() == 'Windows' else "bash"
+
 
 def Usage():
     print("""\
@@ -137,7 +141,7 @@ class Prog:
         self._id = id
         self._end_message = None
         try:
-            self._proc = Popen(re.split(r'\s+', command),
+            self._proc = Popen([BASH, "-c", command],
                                stdin=PIPE, stdout=PIPE, stderr=PIPE)
         except FileNotFoundError:
             self._end_message = "could not execute " + command
