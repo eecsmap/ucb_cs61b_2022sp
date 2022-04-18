@@ -28,7 +28,7 @@ STYLEPROG = style61b
 PYTHON = python3
 
 # Flags to pass to tester.py.
-TESTER_FLAGS =
+TESTER_FLAGS = --reps=5
 
 RMAKE = "$(MAKE)"
 

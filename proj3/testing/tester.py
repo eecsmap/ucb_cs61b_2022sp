@@ -13,6 +13,7 @@ Usage: python3 tester.py OPTIONS TEST.in ...
    OPTIONS may include
        --show=N       Show details on up to N tests.
        --show=all     Show details on all tests.
+       --reps=R       Repeat each test R times.
        --keep         Keep test directories
        --progdir=DIR  Directory or JAR files containing gitlet application
        --timeout=SEC  Default number of seconds allowed to each execution
@@ -270,11 +271,7 @@ def line_reader(f, prefix):
 def doTest(test):
     last_groups = []
     base = splitext(basename(test))[0]
-    print("{}: ".format(base), end="")
-    cdir = tmpdir = createTempDir(base)
-
-    if verbose:
-        print("Testing directory: {}".format(tmpdir))
+    print("{}:".format(base), end=" ")
 
     if DEBUG:
         print(DEBUG_MSG)
@@ -305,88 +302,99 @@ def doTest(test):
             raise ValueError("undefined substitution: ${{{}}}".format(M.group(1)))
 
     try:
-        line_num = None
-        inp = line_reader(test, '')
-        included_files = []
-        while True:
-            line_num, line = next(inp, (line_num, ''))
-            if line == "":
-                print("OK")
-                return True
-            if not Match(r'\s*#', line):
-                line = do_substs(line)
+        tmpdir = None
+        for _ in range(num_reps):
+            if tmpdir is not None:
+                cleanTempDir(tmpdir)
+            cdir = tmpdir = createTempDir(base)
             if verbose:
-                print("+ {}".format(line.rstrip()))
-            if Match(r'\s*#', line) or Match(r'\s+$', line):
-                pass
-            elif Match(r'I\s+(\S+)', line):
-                inp.send(join(dirname(test), Group(1)))
-                included_files.append(Group(1))
-            elif Match(r'C\s*(\S*)', line):
-                if Group(1) == "":
-                    cdir = tmpdir
-                else:
-                    cdir = join(tmpdir, Group(1))
-                    if not exists(cdir):
-                        mkdir(cdir)
-            elif Match(r'T\s*(\S+)', line):
-                try:
-                    timeout = float(Group(1))
-                except:
-                    ValueError("bad time: {}".format(line))
-            elif Match(r'\+\s*(\S+)\s+(\S+)', line):
-                doCopy(Group(1), Group(2), cdir)
-            elif Match(r'-\s*(\S+)', line):
-                doDelete(Group(1), cdir)
-            elif Match(r'>\s*(.*)', line):
-                cmnd = Group(1)
-                expected = []
-                while True:
-                    line_num, L = next(inp, (line_num, ''))
-                    if L == '':
-                        raise ValueError("unterminated command: {}"
-                                         .format(line))
-                    L = L.rstrip()
-                    if Match(r'<<<(\*?)', L):
-                        is_regexp = Group(1)
-                        break
-                    expected.append(do_substs(L))
-                msg, out = doExecute(cmnd, cdir, timeout, line_num)
+                print("Testing directory: {}".format(tmpdir))
+            line_num = None
+            inp = line_reader(test, '')
+            included_files = []
+            while True:
+                line_num, line = next(inp, (line_num, ''))
+                if line == "":
+                    break
+                if not Match(r'\s*#', line):
+                    line = do_substs(line)
                 if verbose:
-                    if out:
-                        print(re.sub(r'(?m)^', '- ', chop_nl(out)))
-                if msg == "OK":
-                    if not correctProgramOutput(expected, out, last_groups,
-                                                is_regexp):
-                        msg = "incorrect output"
-                if msg != "OK":
-                    print("ERROR ({})".format(msg))
-                    reportDetails(test, included_files, line_num)
-                    return False
-            elif Match(r'=\s*(\S+)\s+(\S+)', line):
-                if not correctFileOutput(Group(1), Group(2), cdir):
-                    print("ERROR (file {} has incorrect content)"
-                          .format(Group(1)))
-                    reportDetails(test, included_files, line_num)
-                    return False
-            elif Match(r'\*\s*(\S+)', line):
-                if fileExists(Group(1), cdir):
-                    print("ERROR (file {} present)".format(Group(1)))
-                    reportDetails(test, included_files, line_num)
-                    return False
-            elif Match(r'E\s*(\S+)', line):
-                if not fileExists(Group(1), cdir):
-                    print("ERROR (file or directory {} not present)"
-                          .format(Group(1)))
-                    reportDetails(test, included_files, line_num)
-                    return False
-            elif Match(r'(?s)D\s*([a-zA-Z_][a-zA-Z_0-9]*)\s*"(.*)"\s*$', line):
-                defns[Group(1)] = Group(2)
-            else:
-                raise ValueError("bad test line at {}".format(line_num))
+                    print("+ {}".format(line.rstrip()))
+                if Match(r'\s*#', line) or Match(r'\s+$', line):
+                    pass
+                elif Match(r'I\s+(\S+)', line):
+                    inp.send(join(dirname(test), Group(1)))
+                    included_files.append(Group(1))
+                elif Match(r'C\s*(\S*)', line):
+                    if Group(1) == "":
+                        cdir = tmpdir
+                    else:
+                        cdir = join(tmpdir, Group(1))
+                        if not exists(cdir):
+                            mkdir(cdir)
+                elif Match(r'T\s*(\S+)', line):
+                    try:
+                        timeout = float(Group(1))
+                    except:
+                        ValueError("bad time: {}".format(line))
+                elif Match(r'\+\s*(\S+)\s+(\S+)', line):
+                    doCopy(Group(1), Group(2), cdir)
+                elif Match(r'-\s*(\S+)', line):
+                    doDelete(Group(1), cdir)
+                elif Match(r'>\s*(.*)', line):
+                    cmnd = Group(1)
+                    expected = []
+                    while True:
+                        line_num, L = next(inp, (line_num, ''))
+                        if L == '':
+                            raise ValueError("unterminated command: {}"
+                                             .format(line))
+                        L = L.rstrip()
+                        if Match(r'<<<(\*?)', L):
+                            is_regexp = Group(1)
+                            break
+                        expected.append(do_substs(L))
+                    msg, out = doExecute(cmnd, cdir, timeout, line_num)
+                    if verbose:
+                        if out:
+                            print(re.sub(r'(?m)^', '- ', chop_nl(out)))
+                    if msg == "OK":
+                        if not correctProgramOutput(expected, out, last_groups,
+                                                    is_regexp):
+                            msg = "incorrect output"
+                    if msg != "OK":
+                        print("ERROR ({})".format(msg))
+                        reportDetails(test, included_files, line_num)
+                        return False
+                elif Match(r'=\s*(\S+)\s+(\S+)', line):
+                    if not correctFileOutput(Group(1), Group(2), cdir):
+                        print("ERROR (file {} has incorrect content)"
+                              .format(Group(1)))
+                        reportDetails(test, included_files, line_num)
+                        return False
+                elif Match(r'\*\s*(\S+)', line):
+                    if fileExists(Group(1), cdir):
+                        print("ERROR (file {} present)".format(Group(1)))
+                        reportDetails(test, included_files, line_num)
+                        return False
+                elif Match(r'E\s*(\S+)', line):
+                    if not fileExists(Group(1), cdir):
+                        print("ERROR (file or directory {} not present)"
+                              .format(Group(1)))
+                        reportDetails(test, included_files, line_num)
+                        return False
+                elif Match(r'(?s)D\s*([a-zA-Z_][a-zA-Z_0-9]*)\s*"(.*)"\s*$', line):
+                    defns[Group(1)] = Group(2)
+                else:
+                    raise ValueError("bad test line at {}".format(line_num))
+        print("OK")
+        return True
     finally:
+        if verbose:
+            print("Testing directory: {}".format(tmpdir))
         if not keep:
             cleanTempDir(tmpdir)
+
 
 if __name__ == "__main__":
     show = None
@@ -395,11 +403,12 @@ if __name__ == "__main__":
     verbose = False
     src_dir = 'src'
     output_tolerance = 3
+    num_reps = 1
 
     try:
         opts, files = \
             getopt(sys.argv[1:], '',
-                   ['show=', 'keep', 'progdir=', 'verbose', 'src=',
+                   ['show=', 'keep', 'progdir=', 'verbose', 'src=', 'reps=',
                     'tolerance=', 'debug'])
         for opt, val in opts:
             if opt == '--show':
@@ -422,6 +431,8 @@ if __name__ == "__main__":
                 output_tolerance = int(val)
             elif opt == "--debug":
                 DEBUG = True
+            elif opt == "--reps":
+                num_reps = int(val)
         if prog_dir is None:
             prog_dir = abspath(getcwd())
             k = 10

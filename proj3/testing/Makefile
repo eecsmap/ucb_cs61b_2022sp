@@ -17,9 +17,9 @@ RMAKE = "$(MAKE)"
 
 TESTER = CLASSPATH="$$(pwd)/..:$(CLASSPATH):;$$(pwd)/..;$(CLASSPATH)" $(PYTHON) tester.py
 
-TESTER_FLAGS =
+TESTER_FLAGS = --reps=5
 
-TESTS = samples/*.in *.in
+TESTS = samples/*.in student_tests/*.in *.in
 
 .PHONY: default check clean std
 
