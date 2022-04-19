@@ -230,7 +230,7 @@ def correctProgramOutput(expected, actual, last_groups, is_regexp):
 def reportDetails(test, included_files, line_num):
     if show is None:
         return
-    if show <= 0:
+    if type(show) is int and show <= 0:
         print("   Limit on error details exceeded.")
         return
     direct = dirname(test)
