@@ -1,0 +1,5 @@
+# Commit with nothing to staged or removed.
+I prelude1.inc
+> commit "Nothing here"
+No changes added to the commit.
+<<<

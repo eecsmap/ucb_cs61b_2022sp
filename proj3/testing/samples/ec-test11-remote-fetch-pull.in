@@ -1,0 +1,54 @@
+# Pull from remote.
+# Set up first repository with one commit + initial
+C D1
+I setup2.inc
+> log
+===
+${COMMIT_HEAD}
+Two files
+
+===
+${COMMIT_HEAD}
+initial commit
+
+<<<*
+D R1_TWO "${1}"
+D R1_INIT "${2}"
+
+# Set up second repository with one commit + init.
+
+C D2
+> init
+<<<
+# Fetch remote master and reset our master to it.
+> add-remote R1 ../D1/.gitlet
+<<<
+> fetch R1 master
+<<<
+> reset ${R1_TWO}
+<<<
++ h.txt wug3.txt
+> add h.txt
+<<<
+> commit "Add h"
+<<<
+
+# Add more to the master branch of the first repo.
+C D1
++ k.txt wug2.txt
+> add k.txt
+<<<
+> commit "Add k"
+<<<
+
+# Now pull into the second repo.
+C D2
+> pull R1 master
+<<<
+> log
+===
+${COMMIT_HEAD}
+Merged R1/master into master\.
+
+${ARBLINES}
+<<<*

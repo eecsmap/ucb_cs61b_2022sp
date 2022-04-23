@@ -1,0 +1,108 @@
+# Fetch from remote
+# Set up first repository with one commit + initial
+C D1
+I setup2.inc
+> log
+===
+${COMMIT_HEAD}
+Two files
+
+===
+${COMMIT_HEAD}
+initial commit
+
+<<<*
+D R1_TWO "${1}"
+D R1_INIT "${2}"
+
+# Set up second repository with one commit + init.
+
+C D2
+> init
+<<<
++ k.txt wug2.txt
+> add k.txt
+<<<
+> commit "Add k in repo 2"
+<<<
+> log
+===
+${COMMIT_HEAD}
+Add k in repo 2
+
+===
+${COMMIT_HEAD}
+initial commit
+
+<<<*
+D R2_K "${1}"
+D R2_INIT "${2}"
+
+# Fetch remote master and reset our master to it.
+# Then add another commit and push.
+> add-remote R1 ../D1/.gitlet
+<<<
+> fetch R1 master
+<<<
+> checkout R1/master
+<<<
+> log
+===
+commit ${R1_TWO}
+${DATE}
+Two files
+
+===
+commit ${R1_INIT}
+${DATE}
+initial commit
+
+<<<*
+> checkout master
+<<<
+> reset ${R1_TWO}
+<<<
++ h.txt wug3.txt
+> add h.txt
+<<<
+> commit "Add h"
+<<<
+> log
+===
+${COMMIT_HEAD}
+Add h
+
+===
+commit ${R1_TWO}
+${DATE}
+Two files
+
+===
+commit ${R1_INIT}
+${DATE}
+initial commit
+
+<<<*
+D R2_H "${1}"
+> push R1 master
+<<<
+
+# Check that we have received the pushed branch
+C D1
+> log
+===
+commit ${R2_H}
+${DATE}
+Add h
+
+===
+commit ${R1_TWO}
+${DATE}
+Two files
+
+===
+commit ${R1_INIT}
+${DATE}
+initial commit
+
+<<<*

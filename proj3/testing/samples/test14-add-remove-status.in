@@ -1,0 +1,21 @@
+# Status with two adds
+I setup1.inc
+> rm f.txt
+<<<
+> status
+=== Branches ===
+\*master
+
+=== Staged Files ===
+g.txt
+
+=== Removed Files ===
+
+=== Modifications Not Staged For Commit ===
+
+=== Untracked Files ===
+${ARBLINES}
+
+<<<*
+# File was not tracked, so make sure it's still there
+= f.txt wug.txt

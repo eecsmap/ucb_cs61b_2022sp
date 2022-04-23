@@ -1,0 +1,61 @@
+# As for test43-criss-cross-merge.in, but we switch the roles of the parents
+# in the first two merges.
+# Criss-cross merge.
+> init
+<<<
+> branch given
+<<<
+> checkout given
+<<<
++ f.txt wug.txt
+> add f.txt
+<<<
+> commit "Add f.txt containing wug.txt"
+<<<
+> branch B
+<<<
+> checkout master
+<<<
++ f.txt notwug.txt
+> add f.txt
+<<<
+> commit "Add f.txt containing notwug.txt"
+<<<
+> checkout given
+<<<
+> merge master
+Encountered a merge conflict.
+<<<
+= f.txt conflict6.txt
++ f.txt notwug.txt
+> add f.txt
+<<<
+> commit "Reset f to notwug.txt"
+<<<
+> rm f.txt
+<<<
+> commit "given now empty."
+<<<
+> checkout B
+<<<
++ g.txt wug2.txt
+> add g.txt
+<<<
+> commit "Added g.txt"
+<<<
+> checkout master
+<<<
+> merge B
+Encountered a merge conflict.
+<<<
+= f.txt conflict3.txt
++ f.txt wug.txt
+> add f.txt
+<<<
+> commit "Reset f to wug.txt"
+<<<
+> merge given
+Encountered a merge conflict.
+<<<
+= f.txt conflict5.txt
+= g.txt wug2.txt

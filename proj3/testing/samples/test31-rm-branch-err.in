@@ -1,0 +1,18 @@
+# Test attempts to remove current branch or non-existent branch.
+I prelude1.inc
+> branch other
+<<<
+> checkout other
+<<<
++ f.txt wug.txt
+> add f.txt
+<<<
+> commit "File f.txt"
+<<<
+> rm-branch other
+Cannot remove the current branch.
+<<<
+E f.txt
+> rm-branch foo
+A branch with that name does not exist.
+<<<

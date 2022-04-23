@@ -1,0 +1,53 @@
+# Criss-cross merge.
+> init
+<<<
+> branch given
+<<<
++ f.txt wug.txt
+> add f.txt
+<<<
+> commit "Add f.txt containing wug.txt"
+<<<
+> checkout given
+<<<
++ f.txt notwug.txt
+> add f.txt
+<<<
+> commit "Add f.txt containing notwug.txt"
+<<<
+> branch B
+<<<
+> merge master
+Encountered a merge conflict.
+<<<
+= f.txt conflict3.txt
++ f.txt notwug.txt
+> add f.txt
+<<<
+> commit "Reset f to notwug.txt"
+<<<
+> rm f.txt
+<<<
+> commit "given now empty."
+<<<
+> checkout master
+<<<
++ g.txt wug2.txt
+> add g.txt
+<<<
+> commit "Added g.txt"
+<<<
+> merge B
+Encountered a merge conflict.
+<<<
+= f.txt conflict4.txt
++ f.txt wug.txt
+> add f.txt
+<<<
+> commit "Reset f to wug.txt"
+<<<
+> merge given
+Encountered a merge conflict.
+<<<
+= f.txt conflict5.txt
+= g.txt wug2.txt

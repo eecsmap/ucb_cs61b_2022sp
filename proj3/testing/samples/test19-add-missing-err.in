@@ -1,0 +1,6 @@
+# Check that adding nonexistent file gets correct error.
+I prelude1.inc
+> add f.txt
+File does not exist.
+<<<
+I blank-status.inc

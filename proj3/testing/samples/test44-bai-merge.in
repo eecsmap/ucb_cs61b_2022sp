@@ -1,0 +1,81 @@
+# Test case for merge adapted from Haoran Bai
+> init
+<<<
++ A.txt a.txt
++ B.txt b.txt
++ C.txt c.txt
++ D.txt d.txt
++ E.txt e.txt
+> add A.txt
+<<<
+> add B.txt
+<<<
+> add C.txt
+<<<
+> add D.txt
+<<<
+> add E.txt
+<<<
+> commit "msg1"
+<<<
+= A.txt a.txt
+= B.txt b.txt
+= C.txt c.txt
+= D.txt d.txt
+= E.txt e.txt
+> branch branch1
+<<<
+> rm C.txt
+<<<
+> rm D.txt
+<<<
++ F.txt notf.txt 
++ A.txt nota.txt 
+> add A.txt
+<<<
+> add F.txt
+<<<
+> commit "msg2"
+<<<
+= A.txt nota.txt
+= B.txt b.txt
+* C.txt
+* D.txt
+= E.txt e.txt
+= F.txt notf.txt
+> checkout branch1
+<<<
+= A.txt a.txt
+= B.txt b.txt
+= C.txt c.txt
+= D.txt d.txt
+= E.txt e.txt
+* F.txt
+> rm C.txt
+<<<
+> rm E.txt
+<<<
++ B.txt notb.txt
++ G.txt g.txt
+> add B.txt
+<<<
+> add G.txt
+<<<
+> commit "msg3"
+<<<
+= A.txt a.txt
+= B.txt notb.txt
+* C.txt
+= D.txt d.txt
+* E.txt
+* F.txt
+= G.txt g.txt
+> merge master
+<<<
+= A.txt nota.txt
+= B.txt notb.txt
+* C.txt
+* D.txt
+* E.txt
+= F.txt notf.txt
+= G.txt g.txt

@@ -1,0 +1,32 @@
+# Test the find command when it finds commits that are no longer
+# on any branch.
+I setup2.inc
+> rm f.txt
+<<<
+> commit "Remove one file"
+<<<
+> log
+===
+${COMMIT_HEAD}
+Remove one file
+
+===
+${COMMIT_HEAD}
+Two files
+
+===
+${COMMIT_HEAD}
+initial commit
+
+<<<*
+# UID of initial version
+D UID1 "${3}"
+# UID of second version
+D UID2 "${2}"
+# UID of third version
+D UID3 "${1}"
+> reset ${2}
+<<<
+> find "Remove one file"
+${UID3}
+<<<

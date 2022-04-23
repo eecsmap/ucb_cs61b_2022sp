@@ -1,0 +1,8 @@
+# Check that commit clears the staging area.
+I setup2.inc
+I blank-status.inc
+> rm f.txt
+<<<
+> commit "Removed f.txt"
+<<<
+I blank-status.inc
