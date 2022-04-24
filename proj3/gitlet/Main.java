@@ -67,7 +67,7 @@ public class Main {
         String commitId = null;
         String filename = null;
         if (args.length == 3) {
-            assert(args[1].compareTo("--") == 0); // this should be eventually handled properly as an exception.
+            assert(args[1].compareTo("--") == 0);
             filename = args[2];
         } else if (args.length == 4) {
             commitId = args[1];
