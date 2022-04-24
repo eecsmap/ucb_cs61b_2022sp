@@ -1,10 +1,9 @@
 package gitlet;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class StagingArea implements Serializable {
+public class StagingArea implements Dumpable {
 
     private Map<String, String> filesToAdd;
 
@@ -18,5 +17,13 @@ public class StagingArea implements Serializable {
 
     public Map<String, String> getFilesToAdd() {
         return filesToAdd;
+    }
+
+    @Override
+    public void dump() {
+        System.out.println("files to add:");
+        for (String filename : filesToAdd.keySet()) {
+            System.out.println(filename + ": " + filesToAdd.get(filename));
+        }
     }
 }

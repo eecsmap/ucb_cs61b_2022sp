@@ -19,7 +19,9 @@ TESTER = CLASSPATH="$$(pwd)/..:$(CLASSPATH):;$$(pwd)/..;$(CLASSPATH)" $(PYTHON) 
 
 TESTER_FLAGS = --reps=5
 
-TESTS = samples/*.in student_tests/*.in *.in
+#TESTS = samples/*.in student_tests/*.in *.in
+TESTS = samples/test0*.in
+
 
 .PHONY: default check clean std
 
