@@ -1,0 +1,13 @@
+# Basic initialization
+> init
+<<<
+E .gitlet
+D HEADER "commit [a-f0-9]+"
+D DATE "Date: \w\w\w \w\w\w \d+ \d\d:\d\d:\d\d \d\d\d\d [-+]\d\d\d\d"
+> log
+===
+${HEADER}
+${DATE}
+initial commit
+
+<<<*
